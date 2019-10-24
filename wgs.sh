@@ -3,7 +3,7 @@
 mkdir $1/../resultats_paired_to_paired
 
 #Dé-zippage des fichiers d'intérêt.
-#gunzip $1/*.gz
+gunzip $1/*.gz
 
 #annotation des reads
 $1/../soft/bowtie2-build $1/../databases/all_genome.fasta $1/../databases/indexion
