@@ -3,13 +3,13 @@
 mkdir $1/../resultats_paired_to_paired
 
 #Dé-zippage des fichiers d'intérêt.
-gunzip $1/*.gz
+#gunzip $1/*.gz
 
 #annotation des reads
 $1/../soft/bowtie2-build $1/../databases/all_genome.fasta $1/../databases/indexion
 
 #paired end-to-end
-$1/../soft/bowtie2 --very-fast --end-to-end -x $1/../databases/all_genome.fasta -1 $1/EchG_R1.fastq -2 $1/EchG_R2.fastq -S $1/../resultats_paired_to_paired/paired.sam
+$1/../soft/bowtie2 --very-fast --end-to-end -x $1/../databases/all_genome.fasta -1 $1/*_R1.fastq -2 $1/*_R2.fastq -S $1/../resultats_paired_to_paired/paired.sam
 
 #Convertion SAM en BAM
 samtools view -h -1 $1/../resultats_paired_to_paired/paired.sam -o $1/../resultats_paired_to_paired/paired.bam
@@ -25,7 +25,7 @@ samtools idxstats $1/../resultats_paired_to_paired/trie.bam > $1/../resultats_pa
 grep ">" $1/../databases/all_genome.fasta|cut -f 2 -d ">" >$1/../resultats_paired_to_paired/association.tsv
 
 #Assemblage génome
-$1/../soft/megahit -1 $1/EchG_R1.fastq -2 $1/EchG_R2.fastq --k-list 21 --mem-flag 0 -o $1/../resultats_paired_to_paired/assemblage
+$1/../soft/megahit -1 $1/*_R1.fastq -2 $1/*_R2.fastq --k-list 21 --mem-flag 0 -o $1/../resultats_paired_to_paired/assemblage
 
 #Prédictions
 $1/../soft/prodigal -i $1/../resultats_paired_to_paired/assemblage/final.contigs.fa -d $1/../resultats_paired_to_paired/assemblage/genes.fna
