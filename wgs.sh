@@ -30,7 +30,7 @@ $1/../soft/megahit -1 $1/*_R1.fastq -2 $1/*_R2.fastq --k-list 21 --mem-flag 0 -o
 #Prédictions
 $1/../soft/prodigal -i $1/../resultats_paired_to_paired/assemblage/final.contigs.fa -d $1/../resultats_paired_to_paired/assemblage/genes.fna
 
-#sed "s:>:*\n>:g" $1/../resultats_paired_to_paired/assemblage/genes.fna | sed -n "/partial=00/,/*/p"|grep -v "*" > $1/../resultats_paired_to_paired/assemblage/genes_full.fna
+sed "s:>:*\n>:g" $1/../resultats_paired_to_paired/assemblage/genes.fna | sed -n "/partial=00/,/*/p"|grep -v "*" > $1/../resultats_paired_to_paired/assemblage/genes_full.fna
 
 #Blast
 $1/../soft/blastn -query $1/../resultats_paired_to_paired/assemblage/genes_full.fna -db $1/../databases/resfinder.fna -perc_identity 0.8 -qcov_hsp_perc 0.8 -evalue 1E-3 -out $1/../Resultats_BLASTn.txt -outfmt "6 qseqid pident qcovs ppos evalue bitscore" -best_hit_score_edge 1E-5
